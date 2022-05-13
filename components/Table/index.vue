@@ -1,65 +1,160 @@
 <template>
-  <div>
-    <div class="sm:flex sm:items-center">
-      <div class="sm:flex-auto">
-        <h1 class="text-xl font-semibold text-gray-900">Users</h1>
-        <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email
-          and role.</p>
-      </div>
-      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-        <button type="button"
-                class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">
-          Add user
-        </button>
-      </div>
-    </div>
-    <div class="mt-8 flex flex-col">
-      <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-          <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-            <table class="min-w-full divide-y divide-gray-300">
-              <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Title</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Role</th>
-                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                  <span class="sr-only">Edit</span>
-                </th>
-              </tr>
-              </thead>
-              <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="item in video.items.value" :key="item.id">
-                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{
-                    item.id
-                  }}
-                </td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.title.default }}</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">lindsay.walton@example.com</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Member</td>
-                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                  <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span
-                      class="sr-only">, Lindsay Walton</span></a>
-                </td>
-              </tr>
-
-
-              <!-- More people... -->
-              </tbody>
-            </table>
-          </div>
+  <div
+      :class="[
+      'overflow-hidden bg-white shadow-lg rounded-lg  flex flex-col',
+      className]
+    "
+  >
+    <slot v-if="!options.isHideToolbar" name="toolbar">
+      <div class="grid p-4 gap-2 md:grid-cols-3 sm:grid-cols-1">
+        <div
+            class="shadow flex border focus-within:border-2 rounded-md pl-2 border-gray-300 focus-within:ring-primary focus-within:border-primary"
+        >
+          <input
+              ref="searchInput"
+              v-model="search"
+              class="w-full appearance-none focus:outline-none rounded-l p-2 border-0 focus:ring-0 placeholder-gray-400"
+              type="text"
+              placeholder="Search...xx"
+              @input="debounceSearch"
+          >
+          <button
+              class="w-auto flex justify-end items-center text-gray-400 p-2 hover:text-gray-600"
+              @click="debounceSearch"
+          >
+            <span class="w-6 h-6" v-html="iconSearch"/>
+          </button>
         </div>
+        <div class="toolbar-secondary md:col-span-2">
+          <slot name="toolbar-secondary"/>
+        </div>
+      </div>
+    </slot>
+    <div class="overflow-auto">
+      <table :class="['divide-y divide-gray-200 border',tableClassName]">
+        <TableHead :columns="columns"/>
+        <TableBody :status="options.status" :rows="rows" :rawData="options.rawData" :primary="options.primary"/>
+      </table>
+      <TableStatus :status="options.status" :rows="rows"/>
+    </div>
+    <div
+        v-if="!options.isHidePagination && options.pageOptions.totalCount"
+        class="flex flex-col md:flex-row md:justify-between p-4 items-center"
+    >
+      <p class="font-size-sm text-center text-md-left md:mb-0 mb-5 text-sm text-gray-700">
+        Showing {{ pageBetween }} from {{ totalCountWithComma }} items
+      </p>
+      <div class="flex justify-center overflow-auto">
+<!--        <Pagination-->
+<!--            :current-page="options.pageOptions.currentPage"-->
+<!--            :limit-per-page="options.pageOptions.limit"-->
+<!--            :onPageChange="onPageChange"-->
+<!--            :total-count="options.pageOptions.totalCount"-->
+<!--        />-->
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { useVideos } from '../../hooks/videos'
+<script setup lang="ts">
+import { ITableOptions } from './types'
+import { _debounce, _get } from '~/utils/lodash'
+import { StringHelper } from '~/utils/StringHelper'
+import Pagination from './Pagination.vue'
+import { iconSearch } from '~/constants/icons'
+import { useRoute, useRouter } from '#app'
+import { ref } from '#imports'
+import { PropType } from '@vue/runtime-core'
 
-const video = useVideos()
+const props = defineProps({
+  className: {
+    type: [String, Object]
+  },
+  options: {
+    type: Object as PropType<ITableOptions>,
+    required: true
+  }
+})
+
+const emit = defineEmits(['search', 'pageChange'])
+
+const router = useRouter()
+const route = useRoute()
+const search = ref<string>('')
+
+search.value = props.options.pageOptions.search || ''
+
+const debounceSearch = () => {
+  console.log('xxx')
+  if (!props.options.isNotChangeRoute) {
+    router.push({
+      path: `${route.path}`,
+      query: {
+        ...(route.query || {}),
+        page: 1
+      }
+    })
+  }
+
+  emit('search', search.value)
+}
+
+const tableClassName = ['w-full table-auto']
+
+const columns = computed(() => {
+  return props.options.columns
+})
+
+const rows = computed(() => {
+  return props.options.rows
+})
+
+const getRowKey = (rowIndex: number) => {
+  return _get(
+      props.options,
+      `rawData[${rowIndex}][${props.options.primary}]`,
+      'child' + rowIndex
+  )
+}
+
+const pageBetween = computed((): string => {
+  const length = props.options.rows.length
+  if (length === 0) {
+    return '0'
+  }
+
+  let currentPage = `${length * props.options.pageOptions.currentPage -
+  (props.options.pageOptions.limit - 1)} - ${length * props.options.pageOptions.currentPage}`
+  if (length / props.options.pageOptions.limit !== 1) {
+    currentPage = `${props.options.pageOptions.totalCount - length + 1} - ${
+        props.options.pageOptions.totalCount
+    }`
+  }
+  return currentPage
+})
+
+const totalCountWithComma = computed(() => {
+  if (!props.options.pageOptions.totalCount) {
+    return '0'
+  }
+  return StringHelper.withComma(props.options.pageOptions.totalCount)
+})
+
+const onPageChange = (page: number) => {
+  if (!props.options.isNotChangeRoute) {
+    router.push({
+      path: `${route.path}`,
+      query: {
+        ...(route.query || {}),
+        page: page
+      }
+    })
+  }
+  emit('pageChange', page, search.value)
+}
+
+const onSearchClear = () => {
+  search.value = ''
+  emit('search', '')
+}
 </script>
-
-<style lang="scss" scoped>
-</style>

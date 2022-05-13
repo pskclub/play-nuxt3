@@ -6,4 +6,9 @@ export default defineNuxtConfig({
     '@/assets/main.scss'
   ],
   modules: ['@nuxtjs/tailwindcss', 'cookie-universal-nuxt']
+  // vite: {
+  //   ssr: {
+  //     noExternal: ['lodash']
+  //   }
+  // }
 })

@@ -6,7 +6,7 @@ export const useVideos = () => {
   const fetchStatus = useState<IStatus>('videos_status', () => ({
     isError: false,
     isSuccess: false,
-    isLoading: false,
+    isLoading: true,
     isLoaded: false,
     errorData: null
   }))
@@ -38,9 +38,15 @@ export const useVideos = () => {
     )
   }
 
+  const search = (q: string) => {
+    fetch(1, q)
+  }
+
   return {
-    items: fetchItems,
-    status: fetchStatus,
-    fetch
+    fetchItems,
+    fetchStatus,
+    fetchOptions,
+    fetch,
+    search
   }
 }

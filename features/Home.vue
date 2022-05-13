@@ -1,20 +1,28 @@
 <template>
   <div>
-    my name is {{ props.name }}
-    <input v-model="value" type="text" class="border border-black"/>
-    <span>{{ errorMessage }}</span>
+    <h1 @click="onClick">Table dds</h1>
+    <Table :options="tableOptions" @search="video.search"/>
   </div>
 </template>
 
-<script setup>
-import { useField } from 'vee-validate'
-import * as yup from 'yup'
+<script setup lang="ts">
+import { useTable } from '~/components/Table/hook'
+import { useVideos } from '~/hooks/videos'
 
-const { errorMessage, value } = useField('fieldName', yup.string().required().min(8))
-const props = defineProps({
-  name: {
-    type: String,
-    required: true
-  }
+const video = useVideos()
+
+const tableOptions = useTable({
+  repo: () => video,
+  columns: () => [
+    {
+      value: 'title'
+    }
+  ],
+  rows: () => video.fetchItems.value.map((item) => ([
+    {
+      value: item.title.default
+    }
+  ]))
 })
+
 </script>
