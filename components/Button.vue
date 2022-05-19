@@ -5,12 +5,15 @@
       :disabled="disabled || isLoading"
       :class="innerClasses"
   >
-    <component :is="icon" v-if="icon" class="h-4 w-4 mr-2"/>
+    <component :is="icon" v-if="icon" :class="['h-4 w-4',{'mr-2' : !!slots.default}]"/>
     <slot/>
   </button>
 </template>
 
 <script lang="ts" setup>
+import { ComponentInstance } from '@vue/devtools-api'
+import { useSlots } from '#imports'
+
 const props = defineProps({
   type: {
     type: String,
@@ -36,7 +39,7 @@ const props = defineProps({
     type: Boolean
   },
   icon: {
-    type: Function
+    type: [Function as ComponentInstance, String]
   },
   isOnlyIcon: {
     type: Boolean
@@ -44,7 +47,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['click'])
-
+const slots = useSlots()
 const innerClasses = ['btn', props.className]
 </script>
 

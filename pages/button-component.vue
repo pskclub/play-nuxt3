@@ -44,20 +44,35 @@
     <Button :icon="icon">
       Click Me!
     </Button>
-    <Button class-name="btn-secondary">
+    <Button :icon="icon" class-name="btn-secondary">
       Click Me!
     </Button>
-    <Button class-name="btn-info">
+    <Button :icon="icon" class-name="btn-info">
       Click Me!
     </Button>
-    <Button class-name="btn-success">
+    <Button :icon="icon" class-name="btn-success">
       Click Me!
     </Button>
-    <Button class-name="btn-danger">
+    <Button :icon="icon" class-name="btn-danger">
       Click Me!
     </Button>
-    <Button class-name="btn-warning">
+    <Button :icon="icon" class-name="btn-warning">
       Click Me!
+    </Button>
+  </div>
+
+  <div class="space-x-3 mt-4">
+    <Button :icon="icon">
+    </Button>
+    <Button :icon="icon" class-name="btn-secondary">
+    </Button>
+    <Button :icon="icon" class-name="btn-info">
+    </Button>
+    <Button :icon="icon" class-name="btn-success">
+    </Button>
+    <Button :icon="icon" class-name="btn-danger">
+    </Button>
+    <Button :icon="icon" class-name="btn-warning">
     </Button>
   </div>
 </template>
