@@ -1,85 +1,41 @@
 <template>
   <div class="space-x-3">
-    <Button>
-      Click Me!
-    </Button>
-    <Button class-name="btn-secondary">
-      Click Me!
-    </Button>
-    <Button class-name="btn-info">
-      Click Me!
-    </Button>
-    <Button class-name="btn-success">
-      Click Me!
-    </Button>
-    <Button class-name="btn-danger">
-      Click Me!
-    </Button>
-    <Button class-name="btn-warning">
+    <Button v-for="color in btnColors" :key="color" :class-name="color">
       Click Me!
     </Button>
   </div>
   <div class="space-x-3 mt-4">
-    <Button disabled>
-      Click Me!
-    </Button>
-    <Button class-name="btn-secondary" disabled>
-      Click Me!
-    </Button>
-    <Button class-name="btn-info" disabled>
-      Click Me!
-    </Button>
-    <Button class-name="btn-success" disabled>
-      Click Me!
-    </Button>
-    <Button class-name="btn-danger" disabled>
-      Click Me!
-    </Button>
-    <Button class-name="btn-warning" disabled>
+    <Button v-for="color in btnColors" :key="color" :class-name="color" disabled>
       Click Me!
     </Button>
   </div>
 
   <div class="space-x-3 mt-4">
-    <Button :icon="icon">
-      Click Me!
-    </Button>
-    <Button :icon="icon" class-name="btn-secondary">
-      Click Me!
-    </Button>
-    <Button :icon="icon" class-name="btn-info">
-      Click Me!
-    </Button>
-    <Button :icon="icon" class-name="btn-success">
-      Click Me!
-    </Button>
-    <Button :icon="icon" class-name="btn-danger">
-      Click Me!
-    </Button>
-    <Button :icon="icon" class-name="btn-warning">
+    <Button v-for="color in btnColors" :key="color" :class-name="color" :icon="icon">
       Click Me!
     </Button>
   </div>
 
   <div class="space-x-3 mt-4">
-    <Button :icon="icon">
+    <Button v-for="color in btnColors" :key="color" :class-name="color" :icon="icon">
     </Button>
-    <Button :icon="icon" class-name="btn-secondary">
+
+  </div>
+  <div class="space-x-3 mt-4">
+    <Button v-for="color in btnColors" :key="color" :class-name="color" isLoading>
+      Click Me!
     </Button>
-    <Button :icon="icon" class-name="btn-info">
-    </Button>
-    <Button :icon="icon" class-name="btn-success">
-    </Button>
-    <Button :icon="icon" class-name="btn-danger">
-    </Button>
-    <Button :icon="icon" class-name="btn-warning">
+  </div>
+  <div class="space-x-3 mt-4">
+    <Button type="link" href="https://github.com/" v-for="color in btnColors" :key="color" :class-name="color">
+      Go to
     </Button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { LAYOUTS } from '~/constants/layouts'
-import { definePageMeta, ref, useHead } from '#imports'
+import { definePageMeta, useHead } from '#imports'
 import { HomeIcon } from '@heroicons/vue/solid'
 
 definePageMeta({
@@ -91,6 +47,7 @@ useHead({
 })
 
 const icon = HomeIcon
+const btnColors = ['btn-primary', 'btn-secondary', 'btn-info', 'btn-success', 'btn-danger', 'btn-warning']
 </script>
 
 <style lang="scss" scoped>
