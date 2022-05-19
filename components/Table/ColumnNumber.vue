@@ -4,7 +4,8 @@
 
 <script lang="ts">
 import { IRowItem } from './types'
-import { StringHelper } from '../../utils/StringHelper'
+import { StringHelper } from '~/utils/StringHelper'
+import { computed, defineComponent } from '#imports'
 
 export default defineComponent({
   props: {

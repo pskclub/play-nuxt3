@@ -57,19 +57,10 @@
           <nav class="px-2 space-y-1">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
             <NuxtLink :to="sidebar.to"
-                       v-for="sidebar in sidebarList"
-                       :key="sidebar.to"
-                       class="text-gray-400 group-hover:text-gray-300 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
-              <!--
-                Heroicon name: outline/home
-
-                Current: "text-gray-300", Default: "text-gray-400 group-hover:text-gray-300"
-              -->
-              <svg class="text-gray-300 mr-4 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-              </svg>
+                      v-for="sidebar in sidebarList"
+                      :key="sidebar.to"
+                      class="text-gray-400 group-hover:text-gray-300 text-white group flex items-center px-2 py-2 text-base font-medium rounded-md">
+              <component :is="sidebar.icon" class="w-6 h-6 mr-2"/>
               {{ sidebar.label }}
             </NuxtLink>
           </nav>
@@ -97,16 +88,7 @@
                 v-for="sidebar in sidebarList"
                 :key="sidebar.to"
                 class="text-gray-400 hover:text-gray-300 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md">
-              <!--
-                Heroicon name: outline/home
-
-                Current: "text-gray-300", Default: "text-gray-400 group-hover:text-gray-300"
-              -->
-              <svg class="text-gray-300 mr-3 flex-shrink-0 h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
-                   viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-              </svg>
+              <component :is="sidebar.icon" class="w-6 h-6 mr-2"/>
               {{ sidebar.label }}
             </NuxtLink>
           </nav>
@@ -184,7 +166,7 @@
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <h1 class="text-2xl font-semibold text-gray-900">Dashboard</h1>
           </div>
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4">
             <slot></slot>
           </div>
         </div>
