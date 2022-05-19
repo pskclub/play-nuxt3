@@ -20,5 +20,10 @@ export const SIDEBAR = [
     label: 'Buttons',
     to: '/button-component',
     icon: DesktopComputerIcon
+  },
+  {
+    label: 'Cards',
+    to: '/card-component',
+    icon: DesktopComputerIcon
   }
 ]

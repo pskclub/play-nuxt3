@@ -1,0 +1,11 @@
+.card {
+  @apply overflow-hidden py-4 px-4 bg-white border border-gray-200 sm:px-6 rounded-lg  flex flex-col;
+
+  .card-header {
+    @apply text-gray-800 text-xl font-bold border-b mb-4 pb-4;
+  }
+
+  .card-footer {
+    @apply text-gray-800 border-t mt-4 pt-4;
+  }
+}

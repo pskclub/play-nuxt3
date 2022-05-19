@@ -17,6 +17,7 @@
     <slot/>
   </nuxt-link>
   <button
+      v-else
       :type="type"
       :title="title"
       @click="emit('click')"
