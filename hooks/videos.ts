@@ -1,34 +1,34 @@
-import { useState } from '#imports'
-import { IStatus } from '~/core/types'
+import { reactive } from '#imports'
 import { apiFetchHelper } from '~/core/api/apiPageHelper'
 
 export const useVideos = () => {
-  const fetchStatus = useState<IStatus>('videos_status', () => ({
-    isError: false,
-    isSuccess: false,
-    isLoading: true,
-    isLoaded: false,
-    errorData: null
-  }))
+  const fetch = reactive({
+    status: {
+      isError: false,
+      isSuccess: false,
+      isLoading: true,
+      isLoaded: false,
+      errorData: null
+    },
+    items: [],
+    options: {}
+  })
 
-  const fetchItems = useState<any[]>('videos_items', () => ([]))
-  const fetchOptions = useState<any>('videos_options', () => ({}))
-
-  const fetch = async (page: number = 1, query: string = '') => {
+  const get = async (page: number = 1, query: string = '') => {
     await apiFetchHelper(
       () => ({
-        status: fetchStatus.value,
-        items: fetchItems.value,
-        options: fetchOptions.value
+        status: fetch.status,
+        items: fetch.items,
+        options: fetch.options
       }),
       (data) => {
-        fetchStatus.value = data
+        fetch.status = data
       },
       (data) => {
-        fetchOptions.value = data
+        fetch.options = data
       },
       (data) => {
-        fetchItems.value = data
+        fetch.items = data
       },
       page,
       query,
@@ -39,14 +39,12 @@ export const useVideos = () => {
   }
 
   const search = (q: string) => {
-    fetch(1, q)
+    get(1, q)
   }
 
   return {
-    fetchItems,
-    fetchStatus,
-    fetchOptions,
     fetch,
+    get,
     search
   }
 }

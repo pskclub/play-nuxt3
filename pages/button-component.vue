@@ -23,7 +23,7 @@
 
     </div>
     <div class="space-x-3 mt-4">
-      <Button v-for="color in btnColors" :key="color" :class-name="color" isLoading>
+      <Button v-for="color in btnColors" :key="color" :class-name="color" loading>
         Click Me!
       </Button>
     </div>
@@ -37,15 +37,20 @@
 
 <script setup lang="ts">
 import { LAYOUTS } from '~/constants/layouts'
-import { definePageMeta, useHead } from '#imports'
+import { definePageMeta } from '#imports'
 import { HomeIcon } from '@heroicons/vue/solid'
+import { useApp } from '~/store/app'
 
 definePageMeta({
   layout: LAYOUTS.DASHBOARD
 })
 
-useHead({
+const app = useApp()
+app.updatePage({
   title: 'Button example'
+})
+app.updateDoc({
+  title: 'Button example doc'
 })
 
 const icon = HomeIcon

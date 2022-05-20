@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "autoprefixer": "10.4.7",
-    "postcss-custom-properties": "12.1.7",
+    "postcss-custom-properties": "^12.1.7",
     "sass-loader": "12.6.0",
     "@nuxtjs/tailwindcss": "^5.0.4",
     "nuxt": "^3.0.0-rc.3",
@@ -30,7 +30,6 @@
     "faker": "^6.6.6",
     "lodash": "^4.17.21",
     "pinia": "^2.0.14",
-    "postcss-custom-properties": "^12.1.7",
     "url-join": "^5.0.0",
     "vee-validate": "^4.5.11",
     "vuejs-dialog": "^1.4.2",

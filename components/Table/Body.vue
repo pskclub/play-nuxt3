@@ -1,5 +1,5 @@
 <template>
-  <tbody v-if="status.isSuccess && !status.isLoading" class="divide-y divide-gray-200">
+  <tbody v-if="status.isSuccess && !status.loading" class="divide-y divide-gray-200">
     <tr
       v-for="(_columns, indexRow) in rows"
       :key="getRowKey(indexRow)"

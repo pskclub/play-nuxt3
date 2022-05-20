@@ -1,16 +1,15 @@
 import { IColumn, IRow, IStatus, ITableOptions } from '~/components/Table/types'
-import { get } from '@vueuse/core'
-import { IUsePageLoader } from '~/core/api/loaderTypes'
 import { CONFIG } from '~/constants/config'
 
-export const createTableOptions = (repo: IUsePageLoader<any>, columns: IColumn[], rows: IRow[], options: any | ITableOptions = {}): ITableOptions => {
+// export const createTableOptions = (repo: IUsePageLoader<any>, columns: IColumn[], rows: IRow[], options: any | ITableOptions = {}): ITableOptions => {
+export const createTableOptions = (repo: any, columns: IColumn[], rows: IRow[], options: any | ITableOptions = {}): ITableOptions => {
   return {
-    rawData: repo.fetchItems.value,
-    pageOptions: repo.fetchOptions.value,
+    rawData: repo.fetch.items,
+    pageOptions: repo.fetch.options,
     columns,
     rows,
-    status: repo.fetchStatus.value,
-    deleteStatus: repo.fetchStatus.value,
+    status: repo.fetch.status,
+    deleteStatus: repo.fetch.status,
     primary: CONFIG.DEFAULT_PRIMARY,
     isNotChangeRoute: false,
     ...options
@@ -24,7 +23,7 @@ export const createTableEasyOptions = (items: any[], status: IStatus | null, col
     rows,
     status: status || {
       isLoaded: true,
-      isLoading: false,
+      loading: false,
       isError: false,
       isSuccess: true,
       errorData: null

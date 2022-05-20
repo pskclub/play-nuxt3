@@ -1,0 +1,11 @@
+.sidebar-item {
+  &.nuxt-link-active {
+    @apply bg-white;
+  }
+}
+
+.sidebar-item-root {
+  &.nuxt-link-exact-active {
+    @apply bg-white;
+  }
+}

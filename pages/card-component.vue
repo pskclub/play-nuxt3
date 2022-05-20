@@ -17,13 +17,15 @@
 
 <script setup lang="ts">
 import { LAYOUTS } from '~/constants/layouts'
-import { definePageMeta, useHead } from '#imports'
+import { definePageMeta } from '#imports'
+import { useApp } from '~/store/app'
 
 definePageMeta({
   layout: LAYOUTS.DASHBOARD
 })
 
-useHead({
+const app = useApp()
+app.updatePage({
   title: 'Card example'
 })
 </script>

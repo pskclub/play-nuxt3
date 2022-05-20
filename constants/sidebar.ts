@@ -1,28 +1,35 @@
 import { DesktopComputerIcon, HomeIcon, PaperAirplaneIcon } from '@heroicons/vue/solid'
+import { ComponentInstance } from '@vue/devtools-api'
 
-export const SIDEBAR = [
+export interface ISidebar {
+  name: string
+  to: string
+  icon: ComponentInstance
+}
+
+export const SIDEBAR: ISidebar[] = [
   {
-    label: 'Home',
+    name: 'Home',
     to: '/',
     icon: HomeIcon
   },
   {
-    label: 'Forms',
+    name: 'Forms',
     to: '/form',
     icon: PaperAirplaneIcon
   },
   {
-    label: 'Modal',
+    name: 'Modal',
     to: '/modal',
     icon: DesktopComputerIcon
   },
   {
-    label: 'Buttons',
+    name: 'Buttons',
     to: '/button-component',
     icon: DesktopComputerIcon
   },
   {
-    label: 'Cards',
+    name: 'Cards',
     to: '/card-component',
     icon: DesktopComputerIcon
   }

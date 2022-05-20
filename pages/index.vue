@@ -1,12 +1,14 @@
 <template>
-  <Home/>
+  <div>
+    <Table :options="tableOptions" @search="video.search"/>
+  </div>
 </template>
 
 <script setup lang="ts">
-import Home from '~/features/Home.vue'
 import { LAYOUTS } from '~/constants/layouts'
-import { useVideos } from '~/hooks/videos'
 import { definePageMeta, useAsyncData, useHead } from '#imports'
+import { useTable } from '~/components/Table/hook'
+import { useVideos } from '~/hooks/videos'
 
 definePageMeta({
   layout: LAYOUTS.DASHBOARD
@@ -16,5 +18,22 @@ useHead({
   title: 'hi index'
 })
 const video = useVideos()
-useAsyncData('videos', () => video.fetch(), { server: false })
+
+useAsyncData('videos', () => video.get(), { server: false })
+
+const tableOptions = useTable({
+  repo: () => video,
+  columns: () => [
+    {
+      value: 'title'
+    }
+  ],
+  rows: () => video.fetch.items.map((item) => ([
+    {
+      value: item.title.default
+    }
+  ]))
+})
+
+
 </script>
